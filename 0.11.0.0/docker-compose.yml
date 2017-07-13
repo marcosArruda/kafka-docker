@@ -1,0 +1,50 @@
+---
+version: '2'
+
+services:
+  kafka:
+    build: .
+    image: 026783351078.dkr.ecr.us-east-1.amazonaws.com/kafka-docker:0.11.0.0
+    container_name: kafka
+    hostname: kafka
+    #restart: always
+    ports:
+      - "2181:2181"
+      - "9092:9092"
+      - "9999:9999"
+    environment:
+      KAFKA_CREATE_TOPICS: "docker_test:10:1"
+      KAFKA_JMX_PORT: 9999
+      ADVERTISED_HOST: "kafka"
+      TEMPL_BROKER_ID: 501
+      TEMPL_ZOOKEEPER_CONNECT: "kafka:2181"
+      TEMPL_LISTENERS: "PLAINTEXT://kafka:9092"
+      TEMPL_DELETE_TOPIC_ENABLE: "true"
+      TEMPL_NUM_PARTITIONS: 10
+      TEMPL_AUTO_CREATE_TOPICS_ENABLE: "true"
+      TEMPL_NUM_NETWORK_THREADS: 3
+      TEMPL_NUM_IO_THREADS: 8
+      TEMPL_SOCKET_SEND_BUFFER_BYTES: 102400
+      TEMPL_SOCKET_RECEIVE_BUFFER_BYTES: 102400
+      TEMPL_SOCKET_REQUEST_MAX_BYTES: 104857600
+      TEMPL_LOG_DIRS: "/tmp/kafka-logs"
+      TEMPL_NUM_RECOVERY_THREADS_PER_DATA_DIR: 1
+      TEMPL_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      TEMPL_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      TEMPL_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      TEMPL_LOG_RETENTION_HOURS: 168
+      TEMPL_LOG_SEGMENT_BYTES: 1073741824
+      TEMPL_LOG_RETENTION_CHECK_INTERVAL_MS: 300000
+      TEMPL_ZOOKEEPER_CONNECTION_TIMEOUT_MS: 6000
+      TEMPL_GROUP_CONNECTION_TIMEOUT_MS: 0
+
+  kafka-manager:
+    image: sheepkiller/kafka-manager
+    container_name: kafka-manager
+    ports:
+      - "9000:9000"
+    links:
+      - "kafka:kafka"
+    environment:
+      ZK_HOSTS: "kafka:2181"
+      APPLICATION_SECRET: moip

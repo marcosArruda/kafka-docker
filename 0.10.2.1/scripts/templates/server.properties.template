@@ -1,0 +1,4 @@
+{% set moip_props = env_to_props('TEMPL_', '') -%}
+{% for name, value in moip_props.iteritems() -%}
+{{name}}={{value}}
+{% endfor -%}
