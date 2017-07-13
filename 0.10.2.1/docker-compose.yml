@@ -4,7 +4,7 @@ version: '2'
 services:
   kafka:
     build: .
-    image: repo: 026783351078.dkr.ecr.us-east-1.amazonaws.com/kafka-docker:0.10.2.1
+    image: 026783351078.dkr.ecr.us-east-1.amazonaws.com/kafka-docker:0.10.2.1
     container_name: kafka
     hostname: kafka
     #restart: always
